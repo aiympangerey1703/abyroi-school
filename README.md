@@ -1,36 +1,155 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Абырой — Школа подготовки к ЕНТ
 
-## Getting Started
+Full-stack website for **Abyroi** private preparatory school (UNT coaching center) in Uralsk, Kazakhstan.
 
-First, run the development server:
+## Tech Stack
+
+- **Next.js 16** (App Router)
+- **Tailwind CSS** v4
+- **Prisma ORM** v5 + SQLite (local) / PostgreSQL (production)
+- **NextAuth.js** v4 (email/password)
+- **next-intl** v4 (Russian, Kazakh, English)
+- **Framer Motion** v12
+- **lucide-react** icons
+
+## Local Setup
+
+### Prerequisites
+- Node.js 18+
+- npm
+
+### 1. Clone and install
+
+```bash
+git clone <repo-url>
+cd abyroi
+npm install
+```
+
+### 2. Environment variables
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env`:
+```
+DATABASE_URL="file:./dev.db"
+NEXTAUTH_SECRET="your-secret-key-at-least-32-chars"
+NEXTAUTH_URL="http://localhost:3000"
+```
+
+### 3. Database setup
+
+```bash
+npx prisma migrate dev
+npm run db:seed
+```
+
+### 4. Run dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Default Accounts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+After seeding:
 
-## Learn More
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@abyroi.kz | admin123 |
+| Applicant (PENDING) | aidana@test.kz | student123 |
+| Applicant (EXAM) | bolat@test.kz | parent123 |
 
-To learn more about Next.js, take a look at the following resources:
+## Pages
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| URL | Description |
+|-----|-------------|
+| `/` | Homepage with hero, stats, teachers, news |
+| `/about` | About school, mission, gallery |
+| `/programs` | Academic programs (4 tracks) |
+| `/combos` | UNT subject combinations |
+| `/teachers` | Teacher profiles (public) |
+| `/admissions` | Enrollment info + FAQ |
+| `/news` | News & announcements |
+| `/contact` | Contact form + info |
+| `/apply` | Enrollment application form |
+| `/login` | Login page |
+| `/dashboard` | Applicant personal cabinet |
+| `/admin` | Admin overview |
+| `/admin/applications` | Manage applications |
+| `/admin/teachers` | Manage teacher profiles |
+| `/admin/news` | Manage news posts |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy to Vercel
 
-## Deploy on Vercel
+### 1. Push to GitHub
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin <your-github-repo>
+git push origin main
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 2. Create Vercel project
+
+Go to [vercel.com](https://vercel.com) → New Project → Import your repo.
+
+### 3. Add Vercel Postgres
+
+In Vercel dashboard → Storage → Create Database → Postgres.
+
+Copy the `DATABASE_URL` from the Vercel Postgres connection string.
+
+### 4. Set environment variables in Vercel
+
+```
+DATABASE_URL=postgresql://...  (from Vercel Postgres)
+NEXTAUTH_SECRET=<generate with: openssl rand -base64 32>
+NEXTAUTH_URL=https://your-app.vercel.app
+```
+
+### 5. Update schema for PostgreSQL
+
+Change `prisma/schema.prisma`:
+```prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+```
+
+And update `UNTCombo` model to use `String[]` arrays (PostgreSQL supports native arrays).
+
+### 6. Deploy & seed
+
+After first deploy, run seed via Vercel CLI:
+```bash
+npx vercel env pull .env.production.local
+npx prisma migrate deploy
+npm run db:seed
+```
+
+## i18n
+
+Language switcher in navbar. Supported:
+- 🇷🇺 Russian (`/ru/...`) — default
+- 🇰🇿 Kazakh (`/kz/...`)
+- 🇬🇧 English (`/en/...`)
+
+Messages in `messages/ru.json`, `messages/kz.json`, `messages/en.json`.
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server |
+| `npm run build` | Build for production |
+| `npm run start` | Start production server |
+| `npm run db:seed` | Seed database |
+| `npm run db:reset` | Reset DB and re-seed |
