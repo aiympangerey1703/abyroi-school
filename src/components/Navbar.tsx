@@ -10,7 +10,6 @@ import { Menu, X, ChevronDown } from "lucide-react";
 const localeLabels: Record<string, string> = {
   ru: "🇷🇺 RU",
   kz: "🇰🇿 KZ",
-  en: "🇬🇧 EN",
 };
 
 export default function Navbar() {
@@ -80,7 +79,7 @@ export default function Navbar() {
               </button>
               {langOpen && (
                 <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden z-50">
-                  {["ru", "kz", "en"].map((l) => (
+                  {["ru", "kz"].map((l) => (
                     <button
                       key={l}
                       onClick={() => { switchLocale(l); setLangOpen(false); }}
@@ -152,7 +151,7 @@ export default function Navbar() {
               </Link>
             ))}
             <div className="flex gap-2 mt-2 pt-2 border-t border-gray-100">
-              {["ru", "kz", "en"].map((l) => (
+              {["ru", "kz"].map((l) => (
                 <button
                   key={l}
                   onClick={() => switchLocale(l)}

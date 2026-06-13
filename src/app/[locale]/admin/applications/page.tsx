@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 type App = {
   id: string;
@@ -14,13 +15,7 @@ type App = {
 };
 
 const STATUSES = ["ALL", "PENDING", "CONTACTED", "EXAM_SCHEDULED", "ACCEPTED", "REJECTED"];
-const STATUS_LABELS: Record<string, string> = {
-  PENDING: "Ожидает",
-  CONTACTED: "Связались",
-  EXAM_SCHEDULED: "Экзамен",
-  ACCEPTED: "Принят",
-  REJECTED: "Отказ",
-};
+
 const STATUS_COLORS: Record<string, string> = {
   PENDING: "bg-amber-100 text-amber-700",
   CONTACTED: "bg-blue-100 text-blue-700",
@@ -30,10 +25,19 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default function AdminApplicationsPage() {
+  const t = useTranslations("admin");
   const [apps, setApps] = useState<App[]>([]);
   const [filter, setFilter] = useState("ALL");
   const [loading, setLoading] = useState(true);
   const [examModal, setExamModal] = useState<{ id: string; date: string } | null>(null);
+
+  const STATUS_LABELS: Record<string, string> = {
+    PENDING: t("status_pending"),
+    CONTACTED: t("status_contacted"),
+    EXAM_SCHEDULED: t("status_exam"),
+    ACCEPTED: t("status_accepted"),
+    REJECTED: t("status_rejected"),
+  };
 
   async function load(status: string) {
     setLoading(true);
@@ -72,9 +76,8 @@ export default function AdminApplicationsPage() {
   return (
     <div className="min-h-screen bg-[#f0f7f2]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <h1 className="text-3xl font-bold text-[#1b6b3a] mb-6">Заявки на зачисление</h1>
+        <h1 className="text-3xl font-bold text-[#1b6b3a] mb-6">{t("apps_title")}</h1>
 
-        {/* Filter */}
         <div className="flex flex-wrap gap-2 mb-6">
           {STATUSES.map((s) => (
             <button
@@ -84,26 +87,26 @@ export default function AdminApplicationsPage() {
                 filter === s ? "bg-[#1b6b3a] text-white" : "bg-white text-gray-600 hover:bg-[#f0f7f2]"
               }`}
             >
-              {s === "ALL" ? "Все" : STATUS_LABELS[s]}
+              {s === "ALL" ? t("filter_all") : STATUS_LABELS[s]}
             </button>
           ))}
         </div>
 
         {loading ? (
-          <div className="py-20 text-center text-gray-400">Загрузка...</div>
+          <div className="py-20 text-center text-gray-400">{t("loading")}</div>
         ) : (
           <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="bg-[#f0f7f2] text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                    <th className="px-4 py-3">ФИО</th>
-                    <th className="px-4 py-3">Тип</th>
-                    <th className="px-4 py-3">Телефон</th>
-                    <th className="px-4 py-3">Направление</th>
-                    <th className="px-4 py-3">Дата</th>
-                    <th className="px-4 py-3">Статус</th>
-                    <th className="px-4 py-3">Заметки</th>
+                    <th className="px-4 py-3">{t("col_name")}</th>
+                    <th className="px-4 py-3">{t("col_type")}</th>
+                    <th className="px-4 py-3">{t("col_phone")}</th>
+                    <th className="px-4 py-3">{t("col_combo")}</th>
+                    <th className="px-4 py-3">{t("col_date")}</th>
+                    <th className="px-4 py-3">{t("col_status")}</th>
+                    <th className="px-4 py-3">{t("col_notes")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -114,7 +117,7 @@ export default function AdminApplicationsPage() {
                         <div className="text-xs text-gray-400">{app.user.email}</div>
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-600">
-                        {app.applicantType === "student" ? "Ученик" : "Родитель"}
+                        {app.applicantType === "student" ? t("type_student") : t("type_parent")}
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-600">{app.user.phone || "—"}</td>
                       <td className="px-4 py-3 text-sm text-gray-600 max-w-32 truncate">{app.combo.name}</td>
@@ -142,7 +145,7 @@ export default function AdminApplicationsPage() {
                           type="text"
                           defaultValue={app.adminNotes || ""}
                           onBlur={(e) => updateStatus(app.id, app.status, undefined, e.target.value)}
-                          placeholder="Заметка..."
+                          placeholder={t("note_placeholder")}
                           className="text-xs border border-gray-200 rounded-lg px-2 py-1 w-32 focus:outline-none focus:border-[#1b6b3a]"
                         />
                       </td>
@@ -150,7 +153,7 @@ export default function AdminApplicationsPage() {
                   ))}
                   {apps.length === 0 && (
                     <tr>
-                      <td colSpan={7} className="px-4 py-12 text-center text-gray-400">Заявки не найдены</td>
+                      <td colSpan={7} className="px-4 py-12 text-center text-gray-400">{t("apps_empty")}</td>
                     </tr>
                   )}
                 </tbody>
@@ -160,11 +163,10 @@ export default function AdminApplicationsPage() {
         )}
       </div>
 
-      {/* Exam date modal */}
       {examModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
-            <h3 className="text-lg font-bold text-[#1b6b3a] mb-4">Назначить дату экзамена</h3>
+            <h3 className="text-lg font-bold text-[#1b6b3a] mb-4">{t("exam_modal_title")}</h3>
             <input
               type="datetime-local"
               value={examModal.date}
@@ -180,13 +182,13 @@ export default function AdminApplicationsPage() {
                 disabled={!examModal.date}
                 className="flex-1 py-3 bg-[#1b6b3a] text-white font-semibold rounded-xl hover:bg-[#155730] transition-colors disabled:opacity-60"
               >
-                Сохранить
+                {t("save")}
               </button>
               <button
                 onClick={() => setExamModal(null)}
                 className="flex-1 py-3 border border-gray-200 text-gray-600 rounded-xl"
               >
-                Отмена
+                {t("cancel")}
               </button>
             </div>
           </div>

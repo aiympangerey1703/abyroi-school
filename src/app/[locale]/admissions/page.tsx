@@ -40,30 +40,19 @@ export default function AdmissionsPage() {
   const { locale } = useParams() as { locale: string };
 
   const timelineItems = [
-    { period: "Сентябрь — Октябрь", event: "Приём заявок на зачисление" },
-    { period: "Ноябрь", event: "Проведение вступительного испытания" },
-    { period: "Ноябрь", event: "Объявление результатов" },
-    { period: "Декабрь — Январь", event: "Начало занятий" },
+    { period: t("tl1_period"), event: t("tl1_event") },
+    { period: t("tl2_period"), event: t("tl2_event") },
+    { period: t("tl3_period"), event: t("tl3_event") },
+    { period: t("tl4_period"), event: t("tl4_event") },
   ];
 
-  const examContent = [
-    "Базовые задания по математике (для естественно-математического направления)",
-    "Казахский или русский язык (чтение и грамотность)",
-    "История для гуманитарного направления",
-    "Логическое мышление",
-  ];
-
-  const examFormat = [
-    "Продолжительность: 1,5 часа",
-    "Формат: тест + короткие задачи",
-    "Что взять: удостоверение личности, ручку, простой карандаш",
-    "Прийти за 10 минут до начала",
-  ];
+  const examContent = [t("exam_c1"), t("exam_c2"), t("exam_c3"), t("exam_c4")];
+  const examFormat = [t("exam_f1"), t("exam_f2"), t("exam_f3"), t("exam_f4")];
 
   const docs = [
-    { icon: "📄", title: "Копия удостоверения личности", desc: "Ксерокопия удостоверения личности ученика" },
-    { icon: "📋", title: "Табель успеваемости", desc: "Копия табеля оценок за последнюю четверть" },
-    { icon: "📸", title: "Фотография 3×4", desc: "2 фотографии формата 3×4 на белом фоне" },
+    { icon: "📄", title: t("doc1_title"), desc: t("doc1_desc") },
+    { icon: "📋", title: t("doc2_title"), desc: t("doc2_desc") },
+    { icon: "📸", title: t("doc3_title"), desc: t("doc3_desc") },
   ];
 
   return (
@@ -83,7 +72,7 @@ export default function AdmissionsPage() {
             {["9", "10", "11"].map((grade) => (
               <div key={grade} className="bg-[#f0f7f2] rounded-2xl p-6 text-center">
                 <div className="text-4xl font-bold text-[#1b6b3a] mb-2">{grade}</div>
-                <div className="text-gray-600 font-medium">{grade} класс</div>
+                <div className="text-gray-600 font-medium">{grade} {t("grade_label")}</div>
                 <p className="text-sm text-gray-500 mt-2">{t("who_desc", { grade })}</p>
               </div>
             ))}

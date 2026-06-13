@@ -25,7 +25,7 @@ type UserData = {
 
 const STATUS_STEPS = ["PENDING", "CONTACTED", "EXAM_SCHEDULED", "ACCEPTED"];
 
-function StatusBadge({ status }: { status: string }) {
+function StatusBadge({ status, t }: { status: string; t: (key: string) => string }) {
   const colors: Record<string, string> = {
     PENDING: "bg-amber-100 text-amber-700",
     CONTACTED: "bg-blue-100 text-blue-700",
@@ -34,11 +34,11 @@ function StatusBadge({ status }: { status: string }) {
     REJECTED: "bg-red-100 text-red-700",
   };
   const labels: Record<string, string> = {
-    PENDING: "Рассматривается",
-    CONTACTED: "Связались",
-    EXAM_SCHEDULED: "Экзамен назначен",
-    ACCEPTED: "Зачислен",
-    REJECTED: "Отказано",
+    PENDING: t("badge_pending"),
+    CONTACTED: t("badge_contacted"),
+    EXAM_SCHEDULED: t("badge_exam"),
+    ACCEPTED: t("badge_accepted"),
+    REJECTED: t("badge_rejected"),
   };
   return (
     <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${colors[status] || ""}`}>
@@ -89,29 +89,27 @@ function DashboardContent() {
   const status = application?.status || "PENDING";
   const currentStep = STATUS_STEPS.indexOf(status);
 
-  const STEP_LABELS = [t("step1") || "Заявка", "Звонок", "Экзамен", "Результат", "Зачисление"];
+  const stepLabels = [t("step1"), t("step2"), t("step3"), t("step4"), t("step5")];
 
   return (
     <div className="min-h-screen bg-[#f0f7f2]">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Success banner */}
         {showSuccess && (
           <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-2xl flex items-start gap-3">
             <CheckCircle className="w-5 h-5 text-[#1b6b3a] mt-0.5 shrink-0" />
             <div>
-              <p className="font-semibold text-[#1b6b3a]">Ваша заявка принята!</p>
-              <p className="text-sm text-green-700">Мы свяжемся с вами в течение 1-2 рабочих дней.</p>
+              <p className="font-semibold text-[#1b6b3a]">{t("success_title")}</p>
+              <p className="text-sm text-green-700">{t("success_desc")}</p>
             </div>
           </div>
         )}
 
-        {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-2xl font-bold text-[#1b6b3a]">
               {t("welcome")}, {user?.name?.split(" ")[0]}!
             </h1>
-            <p className="text-gray-500 text-sm mt-1">Личный кабинет абитуриента</p>
+            <p className="text-gray-500 text-sm mt-1">{t("applicant_cabinet")}</p>
           </div>
           <button
             onClick={() => signOut({ callbackUrl: `/${locale}` })}
@@ -123,24 +121,20 @@ function DashboardContent() {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Application Status - main card */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
               <div className="flex justify-between items-start mb-6">
                 <h2 className="text-lg font-bold text-[#1b6b3a]">{t("status_title")}</h2>
-                {application && <StatusBadge status={status} />}
+                {application && <StatusBadge status={status} t={t} />}
               </div>
 
-              {/* Stepper */}
               <div className="flex items-center mb-8 overflow-x-auto pb-2">
-                {["Заявка", "Звонок", "Экзамен", "Результат", "Зачисление"].map((step, i) => (
+                {stepLabels.map((step, i) => (
                   <div key={i} className="flex items-center shrink-0">
                     <div className="flex flex-col items-center">
                       <div
                         className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${
-                          i <= currentStep
-                            ? "bg-[#1b6b3a] text-white"
-                            : "bg-gray-100 text-gray-400"
+                          i <= currentStep ? "bg-[#1b6b3a] text-white" : "bg-gray-100 text-gray-400"
                         }`}
                       >
                         {i <= currentStep ? <CheckCircle className="w-4 h-4" /> : i + 1}
@@ -156,7 +150,6 @@ function DashboardContent() {
                 ))}
               </div>
 
-              {/* Status message */}
               {status === "PENDING" && (
                 <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl">
                   <div className="flex items-center gap-2 mb-1">
@@ -191,8 +184,8 @@ function DashboardContent() {
                   <p className="font-bold text-xl mb-2">{t("accepted")}</p>
                   <p className="text-green-200 text-sm">{t("accepted_desc")}</p>
                   <div className="mt-4 p-3 bg-white/10 rounded-xl text-sm">
-                    <p className="font-medium">Следующие шаги:</p>
-                    <p className="text-green-200 mt-1">Свяжитесь с нами для оплаты и получения расписания</p>
+                    <p className="font-medium">{t("accepted_next_title")}</p>
+                    <p className="text-green-200 mt-1">{t("accepted_next_desc")}</p>
                   </div>
                 </div>
               )}
@@ -208,15 +201,11 @@ function DashboardContent() {
             </div>
           </div>
 
-          {/* Profile card */}
           <div>
             <div className="bg-white rounded-2xl shadow-sm p-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold text-[#1b6b3a]">{t("profile_title")}</h2>
-                <button
-                  onClick={() => setEditOpen(true)}
-                  className="text-sm text-[#28a745] hover:underline"
-                >
+                <button onClick={() => setEditOpen(true)} className="text-sm text-[#28a745] hover:underline">
                   {t("edit_profile")}
                 </button>
               </div>
@@ -243,14 +232,14 @@ function DashboardContent() {
                     <p className="text-gray-700 font-medium mt-0.5">{application.combo.name}</p>
                   </div>
                   <div>
-                    <span className="text-gray-400">Тип:</span>
+                    <span className="text-gray-400">{t("type_label")}:</span>
                     <p className="text-gray-700 mt-0.5">
                       {application.applicantType === "student" ? t("type_student") : t("type_parent")}
                     </p>
                   </div>
                   <div>
-                    <span className="text-gray-400">Язык:</span>
-                    <p className="text-gray-700 mt-0.5">{application.language === "kz" ? "Казахский" : "Русский"}</p>
+                    <span className="text-gray-400">{t("lang_label")}:</span>
+                    <p className="text-gray-700 mt-0.5">{application.language === "kz" ? t("lang_kz") : t("lang_ru")}</p>
                   </div>
                 </div>
               )}
@@ -259,14 +248,13 @@ function DashboardContent() {
         </div>
       </div>
 
-      {/* Edit profile modal */}
       {editOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md">
             <h3 className="text-lg font-bold text-[#1b6b3a] mb-4">{t("edit_profile")}</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Имя</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("name_label")}</label>
                 <input
                   type="text"
                   value={editForm.name}
@@ -275,7 +263,7 @@ function DashboardContent() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Телефон</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("phone_label")}</label>
                 <input
                   type="tel"
                   value={editForm.phone}
@@ -290,13 +278,13 @@ function DashboardContent() {
                 disabled={saving}
                 className="flex-1 py-3 bg-[#1b6b3a] text-white font-semibold rounded-xl hover:bg-[#155730] transition-colors disabled:opacity-60"
               >
-                {saving ? "Сохранение..." : "Сохранить"}
+                {saving ? t("saving") : t("save")}
               </button>
               <button
                 onClick={() => setEditOpen(false)}
                 className="flex-1 py-3 border border-gray-200 text-gray-600 rounded-xl hover:bg-gray-50 transition-colors"
               >
-                Отмена
+                {t("cancel")}
               </button>
             </div>
           </div>
@@ -307,8 +295,9 @@ function DashboardContent() {
 }
 
 export default function DashboardPage() {
+  const t = useTranslations("dashboard");
   return (
-    <Suspense fallback={<div className="py-20 text-center text-gray-400">Загрузка...</div>}>
+    <Suspense fallback={<div className="py-20 text-center text-gray-400">{t("loading")}</div>}>
       <DashboardContent />
     </Suspense>
   );

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, X } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 type Post = {
   id: string;
@@ -16,6 +17,7 @@ type FormData = { title: string; content: string; imageUrl: string };
 const emptyForm: FormData = { title: "", content: "", imageUrl: "" };
 
 export default function AdminNewsPage() {
+  const t = useTranslations("admin");
   const [posts, setPosts] = useState<Post[]>([]);
   const [modal, setModal] = useState<{ open: boolean; editing: Post | null }>({ open: false, editing: null });
   const [form, setForm] = useState<FormData>(emptyForm);
@@ -46,7 +48,7 @@ export default function AdminNewsPage() {
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Удалить новость?")) return;
+    if (!confirm(t("delete_news_confirm"))) return;
     await fetch(`/api/admin/news/${id}`, { method: "DELETE" });
     await load();
   }
@@ -55,9 +57,9 @@ export default function AdminNewsPage() {
     <div className="min-h-screen bg-[#f0f7f2]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-[#1b6b3a]">Управление новостями</h1>
+          <h1 className="text-3xl font-bold text-[#1b6b3a]">{t("manage_news")}</h1>
           <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2 bg-[#1b6b3a] text-white font-semibold rounded-xl hover:bg-[#155730] transition-colors">
-            <Plus className="w-4 h-4" /> Добавить
+            <Plus className="w-4 h-4" /> {t("add")}
           </button>
         </div>
 
@@ -77,7 +79,7 @@ export default function AdminNewsPage() {
                 <p className="text-sm text-gray-600 line-clamp-2">{post.content}</p>
                 <div className="flex gap-2 mt-3">
                   <button onClick={() => openEdit(post)} className="flex-1 flex items-center justify-center gap-1 py-2 border border-gray-200 text-gray-600 rounded-xl hover:border-[#1b6b3a] hover:text-[#1b6b3a] text-sm transition-colors">
-                    <Pencil className="w-3.5 h-3.5" /> Изменить
+                    <Pencil className="w-3.5 h-3.5" /> {t("btn_edit")}
                   </button>
                   <button onClick={() => handleDelete(post.id)} className="flex items-center justify-center p-2 border border-gray-200 text-red-400 rounded-xl hover:border-red-300 hover:bg-red-50 transition-colors">
                     <Trash2 className="w-4 h-4" />
@@ -93,29 +95,31 @@ export default function AdminNewsPage() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-bold text-[#1b6b3a]">{modal.editing ? "Редактировать" : "Добавить"} новость</h3>
+              <h3 className="text-lg font-bold text-[#1b6b3a]">
+                {modal.editing ? t("edit_news_modal") : t("add_news_modal")}
+              </h3>
               <button onClick={() => setModal({ open: false, editing: null })}><X className="w-5 h-5 text-gray-400" /></button>
             </div>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Заголовок</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("label_title")}</label>
                 <input type="text" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1b6b3a]" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Содержание</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("label_content")}</label>
                 <textarea rows={5} value={form.content} onChange={(e) => setForm({ ...form, content: e.target.value })} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1b6b3a] resize-none" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">URL изображения</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("label_image")}</label>
                 <input type="text" value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-[#1b6b3a]" />
               </div>
             </div>
             <div className="flex gap-3 mt-6">
               <button onClick={handleSave} disabled={saving} className="flex-1 py-3 bg-[#1b6b3a] text-white font-semibold rounded-xl hover:bg-[#155730] transition-colors disabled:opacity-60">
-                {saving ? "Сохранение..." : "Сохранить"}
+                {saving ? t("saving") : t("save")}
               </button>
               <button onClick={() => setModal({ open: false, editing: null })} className="flex-1 py-3 border border-gray-200 text-gray-600 rounded-xl">
-                Отмена
+                {t("cancel")}
               </button>
             </div>
           </div>

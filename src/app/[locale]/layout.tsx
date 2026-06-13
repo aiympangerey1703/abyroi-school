@@ -29,7 +29,7 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  if (!routing.locales.includes(locale as "ru" | "kz" | "en")) {
+  if (!routing.locales.includes(locale as "ru" | "kz")) {
     notFound();
   }
 

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { getTranslations, getLocale } from "next-intl/server";
 import { prisma } from "@/lib/prisma";
