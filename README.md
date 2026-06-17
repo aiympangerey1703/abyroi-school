@@ -140,7 +140,7 @@ npm run db:seed
 Language switcher in navbar. Supported:
 - 🇷🇺 Russian (`/ru/...`) — default
 - 🇰🇿 Kazakh (`/kz/...`)
-- 🇬🇧 English (`/en/...`)
+
 
 Messages in `messages/ru.json`, `messages/kz.json`, `messages/en.json`.
 
