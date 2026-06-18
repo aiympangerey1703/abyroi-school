@@ -4,6 +4,24 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
+const TEACHER_PHOTOS: Record<string, string> = {
+  "Ержан Берікұлы": "/teachers/teacher1.jpg",
+  "Эльвира Вахитовна": "/teachers/teacher2.jpg",
+  "Есболат Тілеккабылұлы": "/teachers/teacher3.jpg",
+  "Жанерке Ерболатқызы": "/teachers/teacher4.jpg",
+  "Айнагүл Мауленбайқызы": "/teachers/teacher5.jpg",
+  "Ақжүніс Сержанқызы": "/teachers/teacher6.jpg",
+  "Нұрболат Берікұлы": "/teachers/teacher7.jpg",
+  "Инабат Шынболатовна": "/teachers/teacher8.jpg",
+  "Асланбек Асқарұлы": "/teachers/teacher9.jpg",
+  "Асель Болатқызы": "/teachers/teacher10.jpg",
+  "Аяжан Талғатқызы": "/teachers/teacher11.jpg",
+  "Гүлзат Талапқызы": "/teachers/teacher12.jpg",
+  "Айжан Ергенқызы": "/teachers/teacher13.jpg",
+  "Мадина Наурызғалиқызы": "/teachers/teacher14.jpg",
+  "Әлібек Сансызбайұлы": "/teachers/teacher15.jpg",
+};
+
 type Teacher = {
   id: string;
   name: string;
@@ -57,7 +75,7 @@ export default function TeachersPage() {
             {filtered.map((teacher, idx) => (
               <div key={teacher.id} className="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow">
                 <Image
-                  src={teacher.photoUrl || `https://picsum.photos/seed/${idx + 40}/400/400`}
+                  src={TEACHER_PHOTOS[teacher.name] || teacher.photoUrl || "/teachers/teacher1.jpg"}
                   alt={teacher.name}
                   width={400}
                   height={400}
