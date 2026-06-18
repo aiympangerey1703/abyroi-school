@@ -1,48 +1,34 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
-const TEACHER_PHOTOS: Record<string, string> = {
-  "Ержан Берікұлы": "/teachers/teacher1.jpg",
-  "Эльвира Вахитовна": "/teachers/teacher2.jpg",
-  "Есболат Тілеккабылұлы": "/teachers/teacher3.jpg",
-  "Жанерке Ерболатқызы": "/teachers/teacher4.jpg",
-  "Айнагүл Мауленбайқызы": "/teachers/teacher5.jpg",
-  "Ақжүніс Сержанқызы": "/teachers/teacher6.jpg",
-  "Нұрболат Берікұлы": "/teachers/teacher7.jpg",
-  "Инабат Шынболатовна": "/teachers/teacher8.jpg",
-  "Асланбек Асқарұлы": "/teachers/teacher9.jpg",
-  "Асель Болатқызы": "/teachers/teacher10.jpg",
-  "Аяжан Талғатқызы": "/teachers/teacher11.jpg",
-  "Гүлзат Талапқызы": "/teachers/teacher12.jpg",
-  "Айжан Ергенқызы": "/teachers/teacher13.jpg",
-  "Мадина Наурызғалиқызы": "/teachers/teacher14.jpg",
-  "Әлібек Сансызбайұлы": "/teachers/teacher15.jpg",
-};
-
-type Teacher = {
-  id: string;
-  name: string;
-  subject: string;
-  experience: number;
-  bio: string;
-  photoUrl: string | null;
-};
+const TEACHERS = [
+  { id: "1",  name: "Ержан Берікұлы",        subject: "Дүние жүзі тарихы",                      experience: 15, bio: "ҰБТ саласында 15 жыл тәжірибесі бар мұғалім. 1000+ оқушы дайындаған.",                                                                         photo: "/teachers/teacher1.jpg" },
+  { id: "2",  name: "Эльвира Вахитовна",      subject: "Математика",                              experience: 10, bio: "ҰБТ саласында 10 жыл тәжірибесі бар математика мұғалімі. 1000+ оқушы.",                                                                     photo: "/teachers/teacher2.jpg" },
+  { id: "3",  name: "Есболат Тілеккабылұлы", subject: "География",                               experience: 6,  bio: "ҰБТ саласында 6 жыл тәжірибесі бар география мұғалімі. 500+ оқушы.",                                                                         photo: "/teachers/teacher3.jpg" },
+  { id: "4",  name: "Жанерке Ерболатқызы",   subject: "Биология",                                experience: 5,  bio: "ҰБТ саласында 5 жыл тәжірибесі бар биология мұғалімі. 400+ оқушы.",                                                                          photo: "/teachers/teacher4.jpg" },
+  { id: "5",  name: "Айнагүл Мауленбайқызы", subject: "Оқу сауаттылығы",                        experience: 34, bio: "Жалпы педагогикалық тәжірибесі 34 жыл, ҰБТ саласында 5 жыл. Педагогика магистрі.",                                                            photo: "/teachers/teacher5.jpg" },
+  { id: "6",  name: "Ақжүніс Сержанқызы",    subject: "Математика",                              experience: 5,  bio: "ҰБТ саласында 5 жыл тәжірибесі бар математика мұғалімі. 500+ оқушы.",                                                                         photo: "/teachers/teacher6.jpg" },
+  { id: "7",  name: "Нұрболат Берікұлы",     subject: "Қазақстан тарихы",                       experience: 5,  bio: "ҰБТ саласында 5 жыл тәжірибесі бар тарих мұғалімі. 500+ оқушы.",                                                                             photo: "/teachers/teacher7.jpg" },
+  { id: "8",  name: "Инабат Шынболатовна",   subject: "Биология",                                experience: 5,  bio: "ҰБТ саласында 5 жыл тәжірибесі бар биология мұғалімі. 400+ оқушы.",                                                                          photo: "/teachers/teacher8.jpg" },
+  { id: "9",  name: "Асланбек Асқарұлы",     subject: "Математика",                              experience: 5,  bio: "ҰБТ саласында 5 жыл тәжірибесі бар математика мұғалімі. 500+ оқушы.",                                                                         photo: "/teachers/teacher9.jpg" },
+  { id: "10", name: "Асель Болатқызы",        subject: "Қазақ тілі және әдебиеті",               experience: 4,  bio: "ҰБТ саласында 4 жыл тәжірибесі бар қазақ тілі мұғалімі. 300+ оқушы.",                                                                         photo: "/teachers/teacher10.jpg" },
+  { id: "11", name: "Аяжан Талғатқызы",       subject: "Ағылшын тілі",                           experience: 3,  bio: "ҰБТ саласында 3 жыл тәжірибесі бар ағылшын тілі мұғалімі. 500+ оқушы. Педагогика ғылымдарының магистрі.",                                       photo: "/teachers/teacher11.jpg" },
+  { id: "12", name: "Гүлзат Талапқызы",       subject: "Математика және математикалық сауаттылық", experience: 6, bio: "ҰБТ саласында 6 жыл тәжірибесі бар математика мұғалімі. 700+ оқушы. Физ-мат, инфо-мат сыныптары 100% грант.",                                 photo: "/teachers/teacher12.jpg" },
+  { id: "13", name: "Айжан Ергенқызы",        subject: "Ағылшын тілі",                           experience: 3,  bio: "ҰБТ саласында 3 жыл. Оңтүстік Корея, Донгук университеті түлегі. Педагогика магистрі.",                                                         photo: "/teachers/teacher13.jpg" },
+  { id: "14", name: "Мадина Наурызғалиқызы",  subject: "Химия",                                  experience: 4,  bio: "ҰБТ саласында 4 жыл тәжірибесі бар химия мұғалімі. 500+ оқушы. Педагог-модератор, педагогика ғылымдарының магистрі.",                          photo: "/teachers/teacher14.jpg" },
+  { id: "15", name: "Әлібек Сансызбайұлы",    subject: "Қазақстан тарихы",                       experience: 2,  bio: "ҰБТ саласында 2 жыл тәжірибесі бар тарих мұғалімі. 200+ оқушы. Педагог-модератор.",                                                            photo: "/teachers/teacher15.jpg" },
+];
 
 export default function TeachersPage() {
   const t = useTranslations("teachers_page");
-  const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [filter, setFilter] = useState(t("filter_all"));
 
-  useEffect(() => {
-    fetch("/api/teachers").then((r) => r.json()).then(setTeachers);
-  }, []);
-
   const all = t("filter_all");
-  const subjects = [all, ...Array.from(new Set(teachers.map((t) => t.subject)))];
-  const filtered = filter === all ? teachers : teachers.filter((t) => t.subject === filter);
+  const subjects = [all, ...Array.from(new Set(TEACHERS.map((t) => t.subject)))];
+  const filtered = filter === all ? TEACHERS : TEACHERS.filter((t) => t.subject === filter);
 
   return (
     <div>
@@ -72,10 +58,10 @@ export default function TeachersPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filtered.map((teacher, idx) => (
+            {filtered.map((teacher) => (
               <div key={teacher.id} className="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow">
                 <Image
-                  src={TEACHER_PHOTOS[teacher.name] || teacher.photoUrl || "/teachers/teacher1.jpg"}
+                  src={teacher.photo}
                   alt={teacher.name}
                   width={400}
                   height={400}
@@ -85,7 +71,7 @@ export default function TeachersPage() {
                   <h3 className="font-bold text-[#1b6b3a] text-lg mb-1">{teacher.name}</h3>
                   <p className="text-[#28a745] text-sm font-medium mb-2">{teacher.subject}</p>
                   <p className="text-xs text-gray-400 mb-3">{teacher.experience} {t("years")}</p>
-                  <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">{teacher.bio}</p>
+                  <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">{teacher.bio || ""}</p>
                 </div>
               </div>
             ))}
