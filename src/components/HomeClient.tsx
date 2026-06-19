@@ -6,6 +6,24 @@ import { useTranslations } from "next-intl";
 import { Award, Users, Target, Shield, CheckCircle } from "lucide-react";
 
 type Teacher = { id: string; name: string; subject: string; experience: number; bio: string; photoUrl: string | null };
+
+const TEACHER_PHOTOS: Record<string, string> = {
+  "Ержан Берікұлы": "/teachers/teacher1.jpg",
+  "Эльвира Вахитовна": "/teachers/teacher2.jpg",
+  "Есболат Тілеккабылұлы": "/teachers/teacher3.jpg",
+  "Жанерке Ерболатқызы": "/teachers/teacher4.jpg",
+  "Айнагүл Мауленбайқызы": "/teachers/teacher5.jpg",
+  "Ақжүніс Сержанқызы": "/teachers/teacher6.jpg",
+  "Нұрболат Берікұлы": "/teachers/teacher7.jpg",
+  "Инабат Шынболатовна": "/teachers/teacher8.jpg",
+  "Асланбек Асқарұлы": "/teachers/teacher9.jpg",
+  "Асель Болатқызы": "/teachers/teacher10.jpg",
+  "Аяжан Талғатқызы": "/teachers/teacher11.jpg",
+  "Гүлзат Талапқызы": "/teachers/teacher12.jpg",
+  "Айжан Ергенқызы": "/teachers/teacher13.jpg",
+  "Мадина Наурызғалиқызы": "/teachers/teacher14.jpg",
+  "Әлібек Сансызбайұлы": "/teachers/teacher15.jpg",
+};
 type NewsPost = { id: string; title: string; content: string; imageUrl: string | null; publishedAt: Date };
 type Combo = { id: string; name: string; subjects: string; professions: string; difficulty: string; spotsTotal: number; spotsFilled: number };
 
@@ -191,7 +209,7 @@ export default function HomeClient({
           </div>
           <div className="text-center mt-10">
             <Link href={`/${locale}/apply`} className="inline-block px-8 py-3 bg-[#1b6b3a] text-white font-semibold rounded-2xl hover:bg-[#155730] transition-colors">
-              Подать заявку сейчас
+              {t("nav.apply")}
             </Link>
           </div>
         </div>
@@ -213,7 +231,7 @@ export default function HomeClient({
             {teachers.map((teacher, idx) => (
               <div key={teacher.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <Image
-                  src={teacher.photoUrl || `https://picsum.photos/seed/${idx + 10}/400/300`}
+                  src={TEACHER_PHOTOS[teacher.name] || teacher.photoUrl || "/teachers/teacher1.jpg"}
                   alt={teacher.name}
                   width={400}
                   height={300}

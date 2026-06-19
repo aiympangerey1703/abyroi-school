@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useParams, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useSession, signOut } from "next-auth/react";
@@ -45,9 +46,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href={`/${locale}`} className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: "#1b6b3a" }}>
-              <span className="text-white font-bold text-sm">А</span>
-            </div>
+            <Image src="/logo.jpg" alt="Абырой" width={36} height={36} className="rounded-lg" />
             <span className="font-bold text-xl" style={{ color: "#1b6b3a" }}>
               Абырой
             </span>
