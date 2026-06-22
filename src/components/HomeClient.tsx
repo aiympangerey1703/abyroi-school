@@ -61,9 +61,13 @@ export default function HomeClient({
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-[90vh] flex items-center" style={{ background: "linear-gradient(135deg, #0d3d22 0%, #1b6b3a 50%, #28a745 100%)" }}>
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden" style={{ background: "#0d3d22" }}>
+        <div className="absolute inset-0">
+          <Image src="/logo.jpg" alt="" fill className="object-cover opacity-10" />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/40" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center text-white">
+          <Image src="/logo.jpg" alt="Абырой" width={120} height={120} className="mx-auto mb-8 rounded-2xl shadow-2xl" />
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 text-sm mb-8">
             <CheckCircle className="w-4 h-4 text-green-300" />
             <span>ЕНТ · Уральск · Казахстан</span>
