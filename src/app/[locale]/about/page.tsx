@@ -16,7 +16,14 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
     { icon: Target, title: t("result"), desc: t("result_desc") },
   ];
 
-  const photos = [31, 32, 33, 34, 35, 36];
+  const galleryPhotos = [
+    "/teachers/teacher12.jpg",
+    "/teachers/teacher1.jpg",
+    "/teachers/teacher11.jpg",
+    "/teachers/teacher2.jpg",
+    "/teachers/teacher14.jpg",
+    "/teachers/teacher7.jpg",
+  ];
 
   return (
     <div>
@@ -38,7 +45,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           </div>
           <div className="relative">
             <Image
-              src="https://picsum.photos/seed/about1/600/400"
+              src="/teachers/teacher12.jpg"
               alt="Абырой"
               width={600}
               height={400}
@@ -62,7 +69,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
               <p className="text-gray-600 leading-relaxed">{a("story_p3")}</p>
             </div>
             <Image
-              src="https://picsum.photos/seed/about2/600/400"
+              src="/teachers/teacher1.jpg"
               alt="Абырой"
               width={600}
               height={400}
@@ -93,10 +100,10 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-[#1b6b3a] mb-8">{a("gallery_title")}</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {photos.map((seed) => (
+            {galleryPhotos.map((src) => (
               <Image
-                key={seed}
-                src={`https://picsum.photos/seed/${seed}/600/400`}
+                key={src}
+                src={src}
                 alt="Абырой"
                 width={600}
                 height={400}

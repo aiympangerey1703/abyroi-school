@@ -59,7 +59,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="font-medium text-gray-800">Телефон</p>
-                  <a href="tel:+77110000000" className="text-[#1b6b3a] text-sm hover:underline">+7 (711) 000-00-00</a>
+                  <a href="tel:+77479001125" className="text-[#1b6b3a] text-sm hover:underline">+7 (747) 900-11-25</a>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -75,7 +75,7 @@ export default function ContactPage() {
 
             <div className="flex gap-3 mb-8">
               <a
-                href="https://wa.me/77110000000"
+                href="https://wa.me/77479001125"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-3 bg-[#25D366] text-white rounded-xl font-medium text-sm hover:opacity-90 transition-opacity"
@@ -84,7 +84,9 @@ export default function ContactPage() {
                 {t("whatsapp")}
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/abyroischool_oral"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-medium text-sm hover:opacity-90 transition-opacity"
               >
                 📸 Instagram
@@ -97,7 +99,7 @@ export default function ContactPage() {
                 <MapPin className="w-10 h-10 text-[#1b6b3a] mx-auto mb-2" />
                 <p className="text-gray-600 font-medium">г. Уральск, Казахстан</p>
                 <a
-                  href="https://2gis.kz/uralsk"
+                  href="https://2gis.kz/uralsk/search/Абырой"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[#28a745] text-sm hover:underline mt-1 block"

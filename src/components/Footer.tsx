@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { MessageCircle, MapPin, Phone, Mail } from "lucide-react";
@@ -16,19 +17,17 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center">
-                <span className="text-[#1b6b3a] font-bold text-sm">А</span>
-              </div>
+              <Image src="/logo.jpg" alt="Абырой" width={36} height={36} className="rounded-lg" />
               <span className="font-bold text-xl text-white">Абырой</span>
             </div>
             <p className="text-green-200 text-sm leading-relaxed">
               Частная подготовительная школа к ЕНТ в Уральске, Казахстан
             </p>
             <div className="flex gap-3 mt-4">
-              <a href="#" className="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors">
+              <a href="https://www.instagram.com/abyroischool_oral" target="_blank" rel="noopener noreferrer" className="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors text-sm">
                 📸
               </a>
-              <a href="https://wa.me/77110000000" className="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors">
+              <a href="https://wa.me/77479001125" target="_blank" rel="noopener noreferrer" className="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors">
                 <MessageCircle className="w-4 h-4" />
               </a>
             </div>

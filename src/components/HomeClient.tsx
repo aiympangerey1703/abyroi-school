@@ -24,6 +24,13 @@ const TEACHER_PHOTOS: Record<string, string> = {
   "Мадина Наурызғалиқызы": "/teachers/teacher14.jpg",
   "Әлібек Сансызбайұлы": "/teachers/teacher15.jpg",
 };
+
+const FEATURED_TEACHERS = [
+  { id: "12", name: "Гүлзат Талапқызы",      subject: "Математика және математикалық сауаттылық", experience: 6,  photo: "/teachers/teacher12.jpg" },
+  { id: "1",  name: "Ержан Берікұлы",         subject: "Дүние жүзі тарихы",                       experience: 15, photo: "/teachers/teacher1.jpg" },
+  { id: "11", name: "Аяжан Талғатқызы",        subject: "Ағылшын тілі",                            experience: 3,  photo: "/teachers/teacher11.jpg" },
+  { id: "14", name: "Мадина Наурызғалиқызы",   subject: "Химия",                                   experience: 4,  photo: "/teachers/teacher14.jpg" },
+];
 type NewsPost = { id: string; title: string; content: string; imageUrl: string | null; publishedAt: Date };
 type Combo = { id: string; name: string; subjects: string; professions: string; difficulty: string; spotsTotal: number; spotsFilled: number };
 
@@ -99,9 +106,9 @@ export default function HomeClient({
       <section className="bg-[#1b6b3a] text-white py-8">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {[
-            { num: "200+", label: t("stats.graduates") },
-            { num: "15", label: t("stats.teachers") },
-            { num: "90%", label: t("stats.unt_pass") },
+            { num: "2000+", label: t("stats.graduates") },
+            { num: "15+", label: t("stats.teachers") },
+            { num: "136", label: t("stats.unt_pass") },
             { num: "5", label: t("stats.directions") },
           ].map((s) => (
             <div key={s.label}>
@@ -232,10 +239,10 @@ export default function HomeClient({
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {teachers.map((teacher, idx) => (
+            {FEATURED_TEACHERS.map((teacher) => (
               <div key={teacher.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <Image
-                  src={TEACHER_PHOTOS[teacher.name] || teacher.photoUrl || "/teachers/teacher1.jpg"}
+                  src={teacher.photo}
                   alt={teacher.name}
                   width={400}
                   height={300}
