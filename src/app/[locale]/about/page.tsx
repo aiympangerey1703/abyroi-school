@@ -16,16 +16,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
     { icon: Target, title: t("result"), desc: t("result_desc") },
   ];
 
-  const galleryPhotos = [
-    "/teachers/teacher12.jpg",
-    "/teachers/teacher1.jpg",
-    "/teachers/teacher11.jpg",
-    "/teachers/teacher2.jpg",
-    "/teachers/teacher14.jpg",
-    "/teachers/teacher7.jpg",
-  ];
-
-  return (
+return (
     <div>
       <section className="bg-[#f0f7f2] py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -96,25 +87,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         </div>
       </section>
 
-      <section className="py-16 bg-[#f0f7f2]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-[#1b6b3a] mb-8">{a("gallery_title")}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {galleryPhotos.map((src) => (
-              <Image
-                key={src}
-                src={src}
-                alt="Абырой"
-                width={600}
-                height={400}
-                className="rounded-2xl object-cover w-full h-48 md:h-64"
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 bg-white">
+<section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-8 items-center">
           <div className="flex items-start gap-3">
             <MapPin className="w-6 h-6 text-[#1b6b3a] mt-1 shrink-0" />
