@@ -153,3 +153,4 @@ Messages in `messages/ru.json`, `messages/kz.json`, `messages/en.json`.
 | `npm run start` | Start production server |
 | `npm run db:seed` | Seed database |
 | `npm run db:reset` | Reset DB and re-seed |
+
