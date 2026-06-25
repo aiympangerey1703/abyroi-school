@@ -24,13 +24,19 @@ export default async function NewsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {posts.map((post, idx) => (
               <article key={post.id} className="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
-                <Image
-                  src={post.imageUrl || `https://picsum.photos/seed/${idx + 50}/600/300`}
-                  alt={post.title}
-                  width={600}
-                  height={300}
-                  className="w-full h-48 object-cover"
-                />
+                {post.imageUrl ? (
+                  <Image
+                    src={post.imageUrl}
+                    alt={post.title}
+                    width={600}
+                    height={300}
+                    className="w-full h-48 object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-48 flex items-center justify-center" style={{ background: "#1b6b3a" }}>
+                    <Image src="/logo.jpg" alt="Абырой" width={80} height={80} className="rounded-xl opacity-90" />
+                  </div>
+                )}
                 <div className="p-5">
                   <p className="text-xs text-gray-400 mb-2">
                     {new Date(post.publishedAt).toLocaleDateString(dateLocale, {
