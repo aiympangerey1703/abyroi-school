@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import Image from "next/image";
 import { getTranslations, getLocale } from "next-intl/server";
+import { BookOpen } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 
 export default async function NewsPage() {
@@ -33,8 +34,9 @@ export default async function NewsPage() {
                     className="w-full h-48 object-cover"
                   />
                 ) : (
-                  <div className="w-full h-48 flex items-center justify-center" style={{ background: "#1b6b3a" }}>
-                    <Image src="/logo.jpg" alt="Абырой" width={80} height={80} className="rounded-xl opacity-90" />
+                  <div className="w-full h-48 flex flex-col items-center justify-center gap-3" style={{ background: "linear-gradient(135deg, #0d3d22 0%, #1b6b3a 100%)" }}>
+                    <BookOpen className="w-14 h-14 text-white opacity-80" />
+                    <span className="text-white/60 text-xs font-medium tracking-widest uppercase">Абырой School</span>
                   </div>
                 )}
                 <div className="p-5">

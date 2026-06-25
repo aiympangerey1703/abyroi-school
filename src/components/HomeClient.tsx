@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Award, Users, Target, Shield, CheckCircle } from "lucide-react";
+import { Award, Users, Target, Shield, CheckCircle, BookOpen } from "lucide-react";
 
 type Teacher = { id: string; name: string; subject: string; experience: number; bio: string; photoUrl: string | null };
 
@@ -274,8 +274,9 @@ export default function HomeClient({
                 {post.imageUrl ? (
                   <Image src={post.imageUrl} alt={post.title} width={600} height={300} className="w-full h-48 object-cover" />
                 ) : (
-                  <div className="w-full h-48 flex items-center justify-center" style={{ background: "#1b6b3a" }}>
-                    <Image src="/logo.jpg" alt="Абырой" width={80} height={80} className="rounded-xl opacity-90" />
+                  <div className="w-full h-48 flex flex-col items-center justify-center gap-3" style={{ background: "linear-gradient(135deg, #0d3d22 0%, #1b6b3a 100%)" }}>
+                    <BookOpen className="w-14 h-14 text-white opacity-80" />
+                    <span className="text-white/60 text-xs font-medium tracking-widest uppercase">Абырой School</span>
                   </div>
                 )}
                 <div className="p-5">
