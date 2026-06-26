@@ -23,11 +23,13 @@ export default async function NewsPage() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map((post, idx) => (
+            {posts.map((post) => {
+              const realImage = post.imageUrl && !post.imageUrl.includes("picsum") ? post.imageUrl : null;
+              return (
               <article key={post.id} className="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
-                {post.imageUrl ? (
+                {realImage ? (
                   <Image
-                    src={post.imageUrl}
+                    src={realImage!}
                     alt={post.title}
                     width={600}
                     height={300}
@@ -51,7 +53,8 @@ export default async function NewsPage() {
                   <p className="text-gray-600 text-sm leading-relaxed">{post.content}</p>
                 </div>
               </article>
-            ))}
+              );
+            })}
           </div>
           {posts.length === 0 && (
             <div className="text-center py-20 text-gray-400">{t("empty")}</div>

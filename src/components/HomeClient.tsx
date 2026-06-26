@@ -269,10 +269,12 @@ export default function HomeClient({
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {newsPosts.map((post) => (
+            {newsPosts.map((post) => {
+              const realImage = post.imageUrl && !post.imageUrl.includes("picsum") ? post.imageUrl : null;
+              return (
               <div key={post.id} className="bg-[#f0f7f2] rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
-                {post.imageUrl ? (
-                  <Image src={post.imageUrl} alt={post.title} width={600} height={300} className="w-full h-48 object-cover" />
+                {realImage ? (
+                  <Image src={realImage} alt={post.title} width={600} height={300} className="w-full h-48 object-cover" />
                 ) : (
                   <div className="w-full h-48 flex flex-col items-center justify-center gap-3" style={{ background: "linear-gradient(135deg, #0d3d22 0%, #1b6b3a 100%)" }}>
                     <BookOpen className="w-14 h-14 text-white opacity-80" />
@@ -290,7 +292,8 @@ export default function HomeClient({
                   </Link>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
