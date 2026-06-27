@@ -50,21 +50,28 @@ model Teacher {
 }
 
 model UNTCombo {
-  id           String        @id @default(cuid())
-  name         String
-  subjects     String
-  professions  String
-  description  String
-  difficulty   String
-  spotsTotal   Int           @default(20)
-  spotsFilled  Int           @default(0)
-  applications Application[]
+  id              String        @id @default(cuid())
+  name            String
+  nameKz          String?
+  subjects        String
+  subjectsKz      String?
+  professions     String
+  professionsKz   String?
+  description     String
+  descriptionKz   String?
+  difficulty      String
+  difficultyKz    String?
+  spotsTotal      Int           @default(20)
+  spotsFilled     Int           @default(0)
+  applications    Application[]
 }
 
 model NewsPost {
   id          String   @id @default(cuid())
   title       String
+  titleKz     String?
   content     String
+  contentKz   String?
   imageUrl    String?
   publishedAt DateTime @default(now())
 }

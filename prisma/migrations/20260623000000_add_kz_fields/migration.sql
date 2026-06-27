@@ -1,0 +1,7 @@
+ALTER TABLE "UNTCombo" ADD COLUMN "nameKz" TEXT;
+ALTER TABLE "UNTCombo" ADD COLUMN "subjectsKz" TEXT;
+ALTER TABLE "UNTCombo" ADD COLUMN "professionsKz" TEXT;
+ALTER TABLE "UNTCombo" ADD COLUMN "descriptionKz" TEXT;
+ALTER TABLE "UNTCombo" ADD COLUMN "difficultyKz" TEXT;
+ALTER TABLE "NewsPost" ADD COLUMN "titleKz" TEXT;
+ALTER TABLE "NewsPost" ADD COLUMN "contentKz" TEXT;

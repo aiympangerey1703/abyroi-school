@@ -49,8 +49,12 @@ export default async function NewsPage() {
                       year: "numeric",
                     })}
                   </p>
-                  <h2 className="font-bold text-[#1b6b3a] text-lg mb-3 leading-snug">{post.title}</h2>
-                  <p className="text-gray-600 text-sm leading-relaxed">{post.content}</p>
+                  <h2 className="font-bold text-[#1b6b3a] text-lg mb-3 leading-snug">
+                    {locale === "kz" && post.titleKz ? post.titleKz : post.title}
+                  </h2>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {locale === "kz" && post.contentKz ? post.contentKz : post.content}
+                  </p>
                 </div>
               </article>
               );

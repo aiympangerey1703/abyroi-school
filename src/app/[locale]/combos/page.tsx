@@ -9,9 +9,9 @@ export default async function CombosPage() {
   const combos = await prisma.uNTCombo.findMany({ orderBy: { name: "asc" } });
 
   const diffColor = (d: string) =>
-    d === "Сложно"
+    d === "Сложно" || d === "Күрделі"
       ? "bg-red-100 text-red-700"
-      : d === "Средне"
+      : d === "Средне" || d === "Орташа"
       ? "bg-yellow-100 text-yellow-700"
       : "bg-green-100 text-green-700";
 
@@ -28,23 +28,29 @@ export default async function CombosPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {combos.map((combo) => {
-              const subjects = combo.subjects.split(",").map((s) => s.trim());
-              const professions = combo.professions.split(",").map((p) => p.trim());
+              const isKz = locale === "kz";
+              const displayName = isKz && combo.nameKz ? combo.nameKz : combo.name;
+              const displayDesc = isKz && combo.descriptionKz ? combo.descriptionKz : combo.description;
+              const displayDiff = isKz && combo.difficultyKz ? combo.difficultyKz : combo.difficulty;
+              const subjectsRaw = isKz && combo.subjectsKz ? combo.subjectsKz : combo.subjects;
+              const professionsRaw = isKz && combo.professionsKz ? combo.professionsKz : combo.professions;
+              const subjects = subjectsRaw.split(",").map((s) => s.trim());
+              const professions = professionsRaw.split(",").map((p) => p.trim());
               const spotsLeft = combo.spotsTotal - combo.spotsFilled;
 
               return (
                 <div key={combo.id} className="bg-white border-2 border-gray-100 rounded-2xl p-6 hover:border-[#28a745] hover:shadow-md transition-all">
                   <div className="flex items-start justify-between mb-4">
-                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${diffColor(combo.difficulty)}`}>
-                      {combo.difficulty}
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${diffColor(displayDiff)}`}>
+                      {displayDiff}
                     </span>
                     <span className={`text-xs font-medium px-2 py-1 rounded-lg ${spotsLeft <= 5 ? "bg-red-50 text-red-600" : "bg-green-50 text-green-700"}`}>
                       {t("spots_left", { n: spotsLeft })}
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-[#1b6b3a] mb-3">{combo.name}</h3>
-                  <p className="text-gray-600 text-sm mb-4 leading-relaxed">{combo.description}</p>
+                  <h3 className="text-xl font-bold text-[#1b6b3a] mb-3">{displayName}</h3>
+                  <p className="text-gray-600 text-sm mb-4 leading-relaxed">{displayDesc}</p>
 
                   <div className="mb-4">
                     <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">{t("subjects_label")}</p>
