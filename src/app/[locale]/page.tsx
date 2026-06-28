@@ -9,7 +9,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
   const [teachers, newsPosts, combos] = await Promise.all([
     prisma.teacher.findMany({ take: 4, orderBy: { createdAt: "asc" } }),
-    prisma.newsPost.findMany({ take: 3, orderBy: { publishedAt: "desc" } }),
+    prisma.newsPost.findMany({ take: 3, orderBy: { publishedAt: "desc" }, select: { id: true, title: true, titleKz: true, content: true, contentKz: true, imageUrl: true, publishedAt: true } }),
     prisma.uNTCombo.findMany({ take: 4 }),
   ]);
 

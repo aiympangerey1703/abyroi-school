@@ -26,12 +26,12 @@ const TEACHER_PHOTOS: Record<string, string> = {
 };
 
 const FEATURED_TEACHERS = [
-  { id: "12", name: "Гүлзат Талапқызы",      subject: "Математика және математикалық сауаттылық", experience: 6,  photo: "/teachers/teacher12.jpg" },
-  { id: "1",  name: "Ержан Берікұлы",         subject: "Дүние жүзі тарихы",                       experience: 15, photo: "/teachers/teacher1.jpg" },
-  { id: "11", name: "Аяжан Талғатқызы",        subject: "Ағылшын тілі",                            experience: 3,  photo: "/teachers/teacher11.jpg" },
-  { id: "14", name: "Мадина Наурызғалиқызы",   subject: "Химия",                                   experience: 4,  photo: "/teachers/teacher14.jpg" },
+  { id: "12", name: "Гүлзат Талапқызы",     subjectKz: "Математика және математикалық сауаттылық", subjectRu: "Математика и математическая грамотность", experience: 6,  photo: "/teachers/teacher12.jpg" },
+  { id: "1",  name: "Ержан Берікұлы",        subjectKz: "Дүние жүзі тарихы",                       subjectRu: "Всемирная история",                       experience: 15, photo: "/teachers/teacher1.jpg" },
+  { id: "11", name: "Аяжан Талғатқызы",      subjectKz: "Ағылшын тілі",                            subjectRu: "Английский язык",                         experience: 3,  photo: "/teachers/teacher11.jpg" },
+  { id: "14", name: "Мадина Наурызғалиқызы", subjectKz: "Химия",                                   subjectRu: "Химия",                                   experience: 4,  photo: "/teachers/teacher14.jpg" },
 ];
-type NewsPost = { id: string; title: string; content: string; imageUrl: string | null; publishedAt: Date };
+type NewsPost = { id: string; title: string; titleKz: string | null; content: string; contentKz: string | null; imageUrl: string | null; publishedAt: Date };
 type Combo = { id: string; name: string; subjects: string; professions: string; difficulty: string; spotsTotal: number; spotsFilled: number };
 
 export default function HomeClient({
@@ -250,7 +250,7 @@ export default function HomeClient({
                 />
                 <div className="p-4">
                   <h3 className="font-bold text-[#1b6b3a]">{teacher.name}</h3>
-                  <p className="text-sm text-gray-500">{teacher.subject}</p>
+                  <p className="text-sm text-gray-500">{locale === "kz" ? teacher.subjectKz : teacher.subjectRu}</p>
                   <p className="text-xs text-gray-400 mt-1">{teacher.experience} {t("teachers.years")}</p>
                 </div>
               </div>
@@ -283,10 +283,10 @@ export default function HomeClient({
                 )}
                 <div className="p-5">
                   <p className="text-xs text-gray-400 mb-2">
-                    {new Date(post.publishedAt).toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" })}
+                    {new Date(post.publishedAt).toLocaleDateString(locale === "kz" ? "kk-KZ" : "ru-RU", { day: "numeric", month: "long", year: "numeric" })}
                   </p>
-                  <h3 className="font-bold text-[#1b6b3a] mb-2 line-clamp-2">{post.title}</h3>
-                  <p className="text-sm text-gray-600 line-clamp-3">{post.content}</p>
+                  <h3 className="font-bold text-[#1b6b3a] mb-2 line-clamp-2">{locale === "kz" && post.titleKz ? post.titleKz : post.title}</h3>
+                  <p className="text-sm text-gray-600 line-clamp-3">{locale === "kz" && post.contentKz ? post.contentKz : post.content}</p>
                   <Link href={`/${locale}/news`} className="inline-block mt-3 text-sm text-[#28a745] font-medium hover:underline">
                     {t("news.read_more")} →
                   </Link>
